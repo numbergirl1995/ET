@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>急性発症の紫色の足趾 — ETを背景にした digital ischemia の臨床推論</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3F5F8;
+    --card:#FFFFFF;
+    --ink:#16202B;
+    --ink-soft:#3B4856;
+    --mute:#6E7884;
+    --line:#E3E7ED;
+    --plum:#6B2A55;
+    --plum-deep:#4B1B3B;
+    --plum-tint:#F1E8ED;
+    --plum-tint2:#E7D6E0;
+    --arterial:#A81E3C;
+    --arterial-tint:#F8E7EB;
+    --neutral-fill:#ECEFF4;
+    --good:#1F7A52;
+    --good-tint:#E6F1EB;
+    --maxw:880px;
+    --serif:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+    --sans:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;color-scheme:light;background:var(--paper);}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);line-height:1.9;font-size:16px;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px;}
+  .serif{font-family:var(--serif);font-feature-settings:"palt" 1;}
+  a{color:var(--plum);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;}
+  a:hover{color:var(--plum-deep);}
+  p{margin:0 0 1.05em;}
+  strong{font-weight:700;color:var(--ink);}
+
+  /* ---------- header / hero ---------- */
+  header{padding:64px 0 30px;border-bottom:1px solid var(--line);}
+  .eyebrow{
+    font-family:var(--mono);text-transform:uppercase;letter-spacing:.2em;
+    font-size:.7rem;font-weight:600;color:var(--plum);margin-bottom:20px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .eyebrow::before{content:"";width:30px;height:1px;background:var(--plum);display:inline-block;}
+  .h-title{
+    font-family:var(--serif);font-weight:800;
+    font-size:clamp(2rem,5.6vw,3.15rem);line-height:1.22;letter-spacing:.01em;
+    margin:0 0 18px;font-feature-settings:"palt" 1;
+  }
+  .h-title .accent{color:var(--plum);}
+  .lede{font-size:1.06rem;color:var(--ink-soft);max-width:62ch;margin:0 0 30px;}
+
+  /* case card */
+  .casecard{
+    background:var(--card);border:1px solid var(--line);border-left:4px solid var(--plum);
+    border-radius:14px;padding:24px 24px 22px;box-shadow:0 1px 0 rgba(22,32,43,.03),0 10px 30px -22px rgba(75,27,59,.35);
+  }
+  .case-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:14px;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+  .chip{
+    font-family:var(--mono);font-size:.8rem;font-weight:500;
+    background:var(--plum-tint);color:var(--plum-deep);
+    border:1px solid var(--plum-tint2);border-radius:999px;padding:5px 12px;white-space:nowrap;
+  }
+  .chip.flag{background:#fff;color:var(--mute);border-color:var(--line);}
+  .ask{display:flex;align-items:baseline;gap:14px;border-top:1px dashed var(--plum-tint2);padding-top:18px;}
+  .ask .q{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,4vw,2rem);color:var(--plum);line-height:1.2;}
+  .ask .qsub{color:var(--ink-soft);font-size:.95rem;}
+
+  /* ---------- generic section ---------- */
+  section{padding:46px 0;border-bottom:1px solid var(--line);}
+  .sec-eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.16em;font-size:.7rem;font-weight:600;color:var(--mute);margin-bottom:10px;}
+  .sec-title{font-family:var(--serif);font-weight:700;font-size:clamp(1.45rem,3.6vw,1.9rem);line-height:1.3;margin:0 0 8px;font-feature-settings:"palt" 1;}
+  .sec-intro{color:var(--ink-soft);max-width:64ch;margin-bottom:22px;}
+
+  /* objectives */
+  .obj{list-style:none;counter-reset:o;margin:0;padding:0;}
+  .obj li{counter-increment:o;position:relative;padding:14px 0 14px 50px;border-top:1px solid var(--line);}
+  .obj li:first-child{border-top:none;}
+  .obj li::before{
+    content:counter(o);position:absolute;left:0;top:13px;
+    width:30px;height:30px;border-radius:50%;border:1.5px solid var(--plum);
+    color:var(--plum);font-family:var(--mono);font-weight:600;font-size:.85rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* ---------- reasoning path (stepped spine) ---------- */
+  .path{position:relative;}
+  .path::before{content:"";position:absolute;left:19px;top:14px;bottom:14px;width:2px;background:linear-gradient(180deg,var(--plum-tint2),var(--plum) 12%,var(--plum) 88%,var(--plum-tint2));}
+  .step{display:grid;grid-template-columns:40px 1fr;gap:22px;margin-bottom:34px;}
+  .step:last-child{margin-bottom:0;}
+  .step-num{
+    position:relative;z-index:1;width:40px;height:40px;border-radius:50%;
+    background:var(--paper);border:2px solid var(--plum);color:var(--plum);
+    font-family:var(--mono);font-weight:600;font-size:1rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .step-body{padding-top:4px;}
+  .step-kicker{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:4px;}
+  .step-title{font-family:var(--serif);font-weight:700;font-size:1.28rem;line-height:1.35;color:var(--plum-deep);margin:0 0 12px;}
+
+  /* spectrum signature */
+  .spectrum{margin:22px 0 6px;}
+  .spectrum-pin{position:relative;height:26px;}
+  .spectrum-pin .pin{
+    position:absolute;left:57%;transform:translateX(-50%);text-align:center;
+    font-family:var(--mono);font-size:.72rem;font-weight:600;color:var(--plum-deep);white-space:nowrap;
+  }
+  .spectrum-pin .pin::after{content:"▼";display:block;color:var(--plum);font-size:.8rem;line-height:.9;margin-top:1px;}
+  .spectrum-bar{height:22px;border-radius:6px;background:linear-gradient(90deg,#C8472F 0%,#A23A47 30%,#6B2A55 57%,#3A1B33 80%,#1C1218 100%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);}
+  .spectrum-labels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;font-size:.83rem;color:var(--ink-soft);}
+  .spectrum-labels b{display:block;color:var(--ink);font-weight:700;}
+  .spectrum-labels .c{text-align:center;}
+  .spectrum-labels .r{text-align:right;}
+
+  .note{background:var(--neutral-fill);border-radius:10px;padding:14px 16px;font-size:.95rem;color:var(--ink-soft);margin:14px 0;}
+  .note b{color:var(--ink);}
+
+  /* category grid */
+  .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px;}
+  .cat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 16px;}
+  .cat h4{margin:0 0 4px;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+  .cat p{margin:0;font-size:.9rem;color:var(--ink-soft);line-height:1.7;}
+  .cat.cantmiss{border-left:4px solid var(--arterial);}
+  .tag-danger{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;background:var(--arterial-tint);color:var(--arterial);border-radius:5px;padding:2px 7px;font-weight:600;}
+
+  /* pitfalls */
+  .pitfall{counter-reset:none;}
+  .pf{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px;}
+  .pf .h{font-weight:700;color:var(--plum-deep);margin-bottom:4px;display:flex;gap:10px;align-items:baseline;}
+  .pf .h .n{font-family:var(--mono);color:var(--plum);font-size:.85rem;}
+  .pf p{margin:0;font-size:.95rem;color:var(--ink-soft);}
+
+  /* two columns */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .col{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;}
+  .col h4{margin:0 0 10px;font-size:.95rem;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--plum);}
+  .col ul{margin:0;padding-left:1.1em;}
+  .col li{margin-bottom:7px;font-size:.93rem;color:var(--ink-soft);line-height:1.7;}
+  .col li b{color:var(--ink);}
+
+  /* evidence box */
+  .evidence{background:var(--neutral-fill);border-radius:12px;padding:18px 20px;margin:16px 0;}
+  .evidence .etag{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:8px;}
+  .evidence h4{margin:0 0 8px;font-size:1.02rem;font-weight:700;}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+  .compare div{background:#fff;border:1px solid var(--line);border-radius:9px;padding:12px 14px;font-size:.9rem;}
+  .compare .lab{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);display:block;margin-bottom:4px;}
+  .compare .od{color:var(--ink-soft);}
+  .compare .bid{border-color:var(--plum-tint2);}
+  .compare .bid b{color:var(--plum-deep);}
+
+  /* action box */
+  .action{background:var(--plum-tint);border:1px solid var(--plum-tint2);border-radius:12px;padding:18px 20px;margin-top:16px;}
+  .action h4{margin:0 0 10px;color:var(--plum-deep);font-weight:700;font-size:1.02rem;display:flex;gap:9px;align-items:center;}
+  .action ol{margin:0;padding-left:1.25em;}
+  .action li{margin-bottom:7px;color:var(--ink);font-size:.95rem;}
+
+  /* pearls (anchor block) */
+  .pearls{background:var(--plum-deep);color:#F3E9EF;border-radius:16px;padding:30px 28px;}
+  .pearls .sec-eyebrow{color:#C99FB8;}
+  .pearls h3{font-family:var(--serif);font-weight:700;color:#fff;font-size:1.4rem;margin:0 0 18px;}
+  .pearls ul{list-style:none;margin:0;padding:0;}
+  .pearls li{position:relative;padding:11px 0 11px 26px;border-top:1px solid rgba(255,255,255,.13);font-size:.98rem;line-height:1.75;}
+  .pearls li:first-child{border-top:none;}
+  .pearls li::before{content:"◆";position:absolute;left:0;top:11px;color:#C46FA0;font-size:.8rem;}
+  .pearls li b{color:#fff;}
+
+  /* MCQ */
+  .mcq{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 22px 20px;margin-bottom:18px;}
+  .mcq-meta{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--plum);margin-bottom:10px;}
+  .mcq-q{font-weight:500;margin-bottom:16px;line-height:1.8;}
+  .mcq-options{display:flex;flex-direction:column;gap:9px;}
+  .mcq-option{
+    text-align:left;font-family:var(--sans);font-size:.95rem;line-height:1.6;color:var(--ink);
+    background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:12px 15px;cursor:pointer;
+    display:flex;gap:11px;align-items:flex-start;transition:border-color .15s,background .15s;
+  }
+  .mcq-option .key{font-family:var(--mono);font-weight:600;color:var(--mute);flex:none;}
+  .mcq-option:hover:not(:disabled){border-color:var(--plum);background:var(--plum-tint);}
+  .mcq-option:disabled{cursor:default;}
+  .mcq-option.correct{border-color:var(--good);background:var(--good-tint);}
+  .mcq-option.correct .key{color:var(--good);}
+  .mcq-option.correct::after{content:"正解 ✓";margin-left:auto;font-family:var(--mono);font-size:.72rem;color:var(--good);font-weight:600;flex:none;}
+  .mcq-option.wrong{border-color:var(--arterial);background:var(--arterial-tint);}
+  .mcq-option.wrong .key{color:var(--arterial);}
+  .mcq-option.wrong::after{content:"✗";margin-left:auto;font-family:var(--mono);font-size:.8rem;color:var(--arterial);font-weight:600;flex:none;}
+  .mcq-explain{display:none;margin-top:16px;background:var(--neutral-fill);border-radius:10px;padding:15px 17px;font-size:.92rem;color:var(--ink-soft);line-height:1.8;}
+  .mcq-explain.show{display:block;}
+  .mcq-explain .lab{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--plum);display:block;margin-bottom:6px;}
+  .mcq-explain b{color:var(--ink);}
+
+  /* references */
+  .refs{list-style:none;margin:0;padding:0;counter-reset:r;}
+  .refs li{counter-increment:r;position:relative;padding:13px 0 13px 38px;border-top:1px solid var(--line);font-size:.9rem;color:var(--ink-soft);line-height:1.7;}
+  .refs li:first-child{border-top:none;}
+  .refs li::before{content:counter(r);position:absolute;left:0;top:13px;font-family:var(--mono);font-size:.78rem;color:var(--plum);font-weight:600;}
+  .refs .t{color:var(--ink);font-weight:500;}
+  .refs .src{font-style:normal;color:var(--mute);}
+  .refs .uncertain{font-family:var(--mono);font-size:.68rem;color:var(--arterial);background:var(--arterial-tint);border-radius:5px;padding:1px 6px;margin-left:4px;}
+
+  footer{padding:34px 0 60px;}
+  .disclaim{font-size:.82rem;color:var(--mute);line-height:1.75;border-top:2px solid var(--plum);padding-top:18px;}
+  .footmeta{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--mute);margin-top:18px;text-transform:uppercase;}
+
+  /* content is always visible (animation removed for reliability) */
+
+  :focus-visible{outline:2px solid var(--plum);outline-offset:3px;border-radius:4px;}
+
+  @media (max-width:640px){
+    body{font-size:15.5px;}
+    header{padding:46px 0 26px;}
+    .cat-grid,.cols,.compare{grid-template-columns:1fr;}
+    .path::before{left:15px;}
+    .step{grid-template-columns:32px 1fr;gap:16px;}
+    .step-num{width:32px;height:32px;font-size:.85rem;}
+    .ask{flex-direction:column;gap:6px;}
+    .spectrum-pin .pin{left:56%;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Clinical Reasoning · 総合内科レジデント教材</div>
+    <h1 class="h-title">急性発症の<span class="accent">紫色の足趾</span><br>ETを背景にした digital ischemia の読み解き方</h1>
+    <p class="lede">一つの所見から鑑別を立て、自分の推論を点検し、最後は治療の機微(アスピリンの「用量」と「回数」)まで降りていく ── 一連の臨床推論をそのまま教材にしました。</p>
+
+    <div class="casecard reveal">
+      <div class="case-label">Case</div>
+      <div class="chips">
+        <span class="chip">50代・男性</span>
+        <span class="chip">急性発症</span>
+        <span class="chip">右第3足趾</span>
+        <span class="chip">紫色＋疼痛</span>
+        <span class="chip">血小板 ~60万/µL</span>
+        <span class="chip flag">内服歴なし</span>
+        <span class="chip flag">ET(本態性血小板血症)疑い</span>
+      </div>
+      <div class="ask">
+        <span class="q serif">鑑別は？</span>
+        <span class="qsub">── そして、なぜそう考えるか</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap reveal">
+    <div class="sec-eyebrow">Objectives</div>
+    <h2 class="sec-title">この教材のゴール</h2>
+    <ol class="obj">
+      <li>ET/MPNにおける<b>血小板介在性の微小血管虚血(erythromelalgia)のスペクトラム</b>を、皮膚の色調と結びつけて説明できる。</li>
+      <li>「有痛性・紫色の単趾」= <b>blue toe syndrome</b> の鑑別を、6つのカテゴリーで構造化できる。</li>
+      <li>「ET疑いだから微小血管虚血」という<b>アンカリングの落とし穴</b>を指摘し、見逃し厳禁の塞栓性病態を並列で検索できる。</li>
+      <li>ETにおけるアスピリンの<b>「用量」と「投与回数」を区別</b>し、急性虚血肢での治療の優先順位を述べられる。</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="reveal">
+      <div class="sec-eyebrow">The reasoning path</div>
+      <h2 class="sec-title">推論を順に降りていく</h2>
+      <p class="sec-intro">本命の病態を置いてから、構造化鑑別で網羅性を担保し、自分の推論を点検し、最後に治療へ。順序そのものが思考の型です。</p>
+    </div>
+
+    <div class="path">
+
+      <!-- STEP 1 -->
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-kicker">Most likely</div>
+          <h3 class="step-title">本命：ET関連の血小板介在性 微小血管虚血<br>(erythromelalgia のスペクトラム)</h3>
+          <p>ETの過反応性血小板が細動脈で自然活性化・凝集し、von Willebrand因子優位・フィブリン乏少の血小板血栓で末梢細動脈を閉塞します。皮膚生検では細動脈の線維筋性内膜増殖と血栓性閉塞が特徴で、<strong>低用量アスピリンと血小板正常化で寛解する一方、抗凝固では予防できない</strong>(アスピリン反応性・クマジン抵抗性の動脈性血栓素因)。この微小循環障害は血小板40万/µL超ですでに起こり得るため、今回の60万でも症状の説明は十分つきます。</p>
+
+          <div class="spectrum" role="img" aria-label="erythromelalgia の進行スペクトラム。紅(早期・可逆)から紫(チアノーゼ性虚血・進行)を経て黒(壊死・不可逆)へ。本症例は紫の段階に相当する。">
+            <div class="spectrum-pin"><span class="pin">本症例</span></div>
+            <div class="spectrum-bar"></div>
+            <div class="spectrum-labels">
+              <div><b>紅</b>灼熱感・温感(早期・可逆)</div>
+              <div class="c"><b>紫</b>先端チアノーゼ性虚血(進行)</div>
+              <div class="r"><b>黒</b>壊死(不可逆)</div>
+            </div>
+          </div>
+
+          <div class="note"><b>色調が「紅」ではなく「紫」である意味。</b> 古典的 erythromelalgia は灼熱感を伴う紅色・温感で始まりますが、放置されると先端チアノーゼ性虚血へ移行し、最終的に壊死に至ります。紫色は<b>スペクトラムのより虚血側</b>に進んでいるサインで、緊急性がやや高い(壊死リスクあり)。アスピリンへの劇的反応は、この病態にほぼ診断的価値を持ちます。</div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-kicker">Framework</div>
+          <h3 class="step-title">構造化鑑別：blue toe syndrome の6カテゴリー</h3>
+          <p>本命に飛びつく前に、同じ表現型(他趾の灌流は保たれた単趾の有痛性紫色変化)を呈する鑑別を機械的に潰します。<strong>足背・後脛骨動脈が触知でき、足全体は温かいまま</strong>近位由来の微小塞栓が趾の小動脈を閉塞する、という点が共通の落とし穴です。</p>
+          <div class="cat-grid">
+            <div class="cat cantmiss">
+              <h4>血管閉塞（塞栓） <span class="tag-danger">見逃し厳禁</span></h4>
+              <p>心原性(AF・弁膜症・心内膜炎・心腔内血栓・粘液腫)、コレステロール結晶塞栓、近位の動脈瘤・潰瘍化プラークからの artery-to-artery 塞栓。再発・肢切断のリスク。</p>
+            </div>
+            <div class="cat">
+              <h4>血管閉塞（血栓・凝固亢進）</h4>
+              <p>ET/MPN、<b>抗リン脂質抗体症候群(APS)</b>、DIC、TTP、悪性腫瘍関連。内服歴なしのためワルファリン/ヘパリン関連の事前確率は低下。</p>
+            </div>
+            <div class="cat">
+              <h4>自己免疫・血管炎</h4>
+              <p>ANCA関連血管炎、結節性多発動脈炎、Buerger病(喫煙歴が鍵)、Behçet病。</p>
+            </div>
+            <div class="cat">
+              <h4>過粘稠度症候群</h4>
+              <p>MPN以外にパラプロテイン血症、クリオグロブリン血症、寒冷凝集素症。</p>
+            </div>
+            <div class="cat cantmiss">
+              <h4>感染 <span class="tag-danger">見逃し厳禁</span></h4>
+              <p>感染性心内膜炎からの敗血症性塞栓。Janeway斑・Osler結節・爪下線状出血を探す。</p>
+            </div>
+            <div class="cat">
+              <h4>血管攣縮</h4>
+              <p>Raynaud現象(通常は両側・三相・寒冷誘発)、血管収縮薬・麦角アルカロイド。</p>
+            </div>
+          </div>
+          <div class="note">非血管性のmimicも一応：<b>急性痛風/偽痛風</b>、外傷・皮下血腫、蜂窩織炎、凍瘡(pernio)、いわゆるCOVID toe。第3趾という部位自体は鑑別を絞り込まないが、<b>単趾性であること</b>はblue toe syndrome型を支持する。</div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-kicker">Self-check</div>
+          <h3 class="step-title">推論の点検：3つの落とし穴</h3>
+          <div class="pitfall">
+            <div class="pf">
+              <div class="h"><span class="n">01</span>「ET疑い」自体がまだ仮説である</div>
+              <p>血小板60万は<b>反応性血小板増多</b>でも容易に到達する(感染・炎症・鉄欠乏・脾摘後)。ETは除外診断。── ただしここに双方向の論理があり、<b>微小血管虚血症状(erythromelalgia)の存在は、それ自体がクローン性(真のET)を示唆する手がかり</b>。反応性増多ではこの症状はまず起きず、症状の存在が診断仮説を補強する。</p>
+            </div>
+            <div class="pf">
+              <div class="h"><span class="n">02</span>ETにアンカリングして塞栓源検索を怠る</div>
+              <p>ET患者でも動脈硬化やAFは併存し得るし、コレステロール塞栓・心原性塞栓は独立に起こる。「ETがあるから」で心臓・近位動脈の評価を省くと、再発性塞栓シャワーや肢切断を見逃す。</p>
+            </div>
+            <div class="pf">
+              <div class="h"><span class="n">03</span>血小板数と血栓リスクを直線で結ぶ</div>
+              <p>直感に反して、<b>血小板100万/µL超はむしろ動脈血栓リスクが低く</b>(後天性von Willebrand症候群による出血側に振れる)、動脈血栓の規定因子は年齢&gt;60歳・血栓既往・心血管リスク因子・白血球増多・JAK2V617F(revised IPSET-thrombosis)。「60万だから血栓は起きにくい」という量的推論は成立しない。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step reveal">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-kicker">Discriminators &amp; workup</div>
+          <h3 class="step-title">鑑別を分ける所見と初期ワークアップ</h3>
+          <p><strong>アスピリンへの反応性</strong>は、erythromelalgia型なら劇的改善を示し、ほぼ確定診断的に働きます。所見と検査は病歴の重みづけに応じて選択します。</p>
+          <div class="cols">
+            <div class="col">
+              <h4>身体所見</h4>
+              <ul>
+                <li><b>足背・後脛骨動脈の触知</b>(blue toe型は触知可・足全体は温かい)</li>
+                <li><b>片側性 / 両側性</b>(両側・三相変化ならRaynaud寄り)</li>
+                <li><b>単趾 / 多趾</b></li>
+                <li><b>livedo reticularis</b>(コレステロール塞栓を示唆)</li>
+                <li><b>爪下線状出血・Osler結節・Janeway斑</b>(感染性心内膜炎)</li>
+                <li>皮膚潰瘍・壊死の有無</li>
+              </ul>
+            </div>
+            <div class="col">
+              <h4>検査</h4>
+              <ul>
+                <li>末梢血＋<b>血液像</b></li>
+                <li><b>JAK2V617F / CALR / MPL</b>(必要時に骨髄)</li>
+                <li>心電図・ホルター・<b>心エコー</b>(塞栓源)</li>
+                <li>下肢動脈エコー・<b>造影CTA</b>(近位塞栓源・動脈瘤)</li>
+                <li>抗リン脂質抗体(LA・aCL・抗β2GPI)</li>
+                <li>ANCA・クリオグロブリン・補体</li>
+                <li>腎機能・尿沈渣・末梢血好酸球(コレステロール塞栓)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="step reveal">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-kicker">Treatment · the nub</div>
+          <h3 class="step-title">治療の核心：アスピリンは「低用量」── 論点は「回数」</h3>
+          <p>答えは<strong>低用量(75〜100mg)、高用量ではありません</strong>。抗血小板効果は血小板COX-1/トロンボキサンA2の不可逆的阻害で完結し、低用量で十分達成されます。高用量は消化管・出血リスクを上げるだけでなく、内皮の<b>COX-2由来プロスタサイクリン(血管保護的)まで抑制</b>し逆効果になり得る。だから「症状が残るから増量」とはしません。</p>
+
+          <div class="evidence">
+            <div class="etag">Pharmacodynamics — ARES trial</div>
+            <h4>ETの本質的論点は「用量」ではなく「投与回数」</h4>
+            <p>ETでは巨核球造血亢進で血小板代謝回転が速く、<b>未アセチル化COX-1を持つ新生血小板</b>が24時間の投与間隔の間に供給される。このため1日1回ではトロンボキサン抑制が24時間持続しないことがある(Pascale, Blood 2012)。ARES試験はこれを検証しました。</p>
+            <div class="compare">
+              <div class="od"><span class="lab">1日1回</span>新生血小板により投与間隔後半でCOX-1抑制が不完全になりうる。<b>細胞減少療法併用で血小板が正常化していれば1日1回でも十分な可能性。</b></div>
+              <div class="bid"><span class="lab">1日2回(100mg)</span><b>持続的なCOX-1抑制を回復</b>し1日1回より優れる。1日3回でも上乗せなし。COX-2/プロスタサイクリンは温存。長期(242例・20か月)でも薬力学的優位と安全性を維持。</div>
+            </div>
+            <p style="margin-top:12px;margin-bottom:0;font-size:.88rem;">ただし<b>100mg 1日2回でも約1/3はTXB2高値が残存</b>し万能ではない。吸収は腸溶錠より普通錠が良好(日本のバイアスピリンは腸溶錠である点に留意。バファリン配合錠A81は緩衝錠)。</p>
+          </div>
+
+          <div class="action">
+            <h4>急性虚血肢(紫色＝虚血寄り)での実務</h4>
+            <ol>
+              <li><b>低用量アスピリンを速やかに開始</b>。erythromelalgia型なら劇的反応が診断的かつ治療的。急性発作の頓挫に高用量は不要で、不可逆的COX-1アセチル化のため<b>単回低用量でも数日持続</b>する改善が得られる(歴史的に250〜500mgも使われたが機序上は低用量で十分)。</li>
+              <li><b>虚血趾を救うには血小板数の緊急的是正(細胞減少療法：hydroxyurea等)が必須</b>。微小血管血栓を根本的に解除するのは血小板正常化であり、アスピリン単独では趾の虚血進行を止めきれないことがある。</li>
+            </ol>
+          </div>
+          <div class="note">1日2回投与は現時点で国際的にも日本のガイドラインでも標準ではなく、主にイタリアのグループ由来の<b>エビデンスに裏打ちされた refinement</b>の位置づけ。臨床判断とインフォームドコンセントを要する。血小板60万では出血の懸念は小さいが、極端な増多(&gt;100〜150万)ではアスピリン前にvWF評価を。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap reveal">
+    <div class="pearls">
+      <div class="sec-eyebrow">Take-home</div>
+      <h3 class="serif">5つの臨床的要点</h3>
+      <ul>
+        <li><b>皮膚の色がステージを語る。</b> 紅=早期・可逆、紫=チアノーゼ性虚血(進行・壊死リスク)、黒=不可逆。色が虚血側なら緊急性が上がる。</li>
+        <li><b>「最も考えやすい」と「見逃し厳禁」を並列で持つ。</b> 本命=ET関連微小血管虚血、can't-miss=塞栓源(心原性・コレステロール・近位動脈)とAPS。</li>
+        <li><b>微小血管虚血症状の存在は、真のET(クローン性)を示唆する手がかり。</b> 反応性血小板増多ではまず起きない。</li>
+        <li><b>血小板数と血栓リスクは直線ではない。</b> &gt;100万はむしろ動脈血栓リスク低・出血リスク高(後天性vWS)。</li>
+        <li><b>アスピリンは低用量。論点は用量ではなく回数。</b> ETは代謝回転亢進でODのCOX-1抑制が不十分になりうる(ARES：BIDが薬力学的に優れる)。ただし虚血肢の本筋は細胞減少療法。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="reveal">
+      <div class="sec-eyebrow">Self-assessment</div>
+      <h2 class="sec-title">理解度チェック</h2>
+      <p class="sec-intro">選択肢をタップすると正解と解説が表示されます。</p>
+    </div>
+
+    <div class="mcq reveal">
+      <div class="mcq-meta">Question 1 — 病態認識</div>
+      <p class="mcq-q">50代男性。ET疑い(血小板62万/µL)。急性発症の右第3足趾の有痛性・紫色変化。足背動脈は良好に触知でき、足部全体は温かく灌流良好。最も考えられる機序はどれか。</p>
+      <div class="mcq-options">
+        <button class="mcq-option" type="button"><span class="key">A</span><span>心原性塞栓による急性下肢動脈閉塞</span></button>
+        <button class="mcq-option" type="button"><span class="key">B</span><span>コレステロール結晶塞栓</span></button>
+        <button class="mcq-option" type="button" data-correct="true"><span class="key">C</span><span>血小板介在性の細動脈微小血栓(erythromelalgia のスペクトラム)</span></button>
+        <button class="mcq-option" type="button"><span class="key">D</span><span>深部静脈血栓症</span></button>
+        <button class="mcq-option" type="button"><span class="key">E</span><span>Raynaud現象</span></button>
+      </div>
+      <div class="mcq-explain">
+        <span class="lab">解説 — C</span>
+        <b>単趾性</b>・<b>足部全体は灌流良好で動脈触知可</b>・<b>ETの背景</b>という組み合わせは、血小板介在性の細動脈微小血栓を最も示唆する。紫色は erythromelalgia のチアノーゼ性虚血段階に相当し、アスピリンへの反応がほぼ診断的。ただし足部が灌流良好でも<b>塞栓性病態(A・B)は見逃し厳禁</b>であり、心臓・近位動脈の評価は並行して行う。両側・三相・寒冷誘発ならRaynaud(E)を考える。
+      </div>
+    </div>
+
+    <div class="mcq reveal">
+      <div class="mcq-meta">Question 2 — リスクの理解</div>
+      <p class="mcq-q">ETの血栓リスクに関する記述として正しいものはどれか。</p>
+      <div class="mcq-options">
+        <button class="mcq-option" type="button"><span class="key">A</span><span>血小板数が高いほど動脈血栓リスクは直線的に増加する</span></button>
+        <button class="mcq-option" type="button" data-correct="true"><span class="key">B</span><span>血小板100万/µL超ではむしろ動脈血栓リスクは低く、後天性vWSによる出血に注意する</span></button>
+        <button class="mcq-option" type="button"><span class="key">C</span><span>微小血管虚血症状は反応性血小板増多でも高頻度に生じる</span></button>
+        <button class="mcq-option" type="button"><span class="key">D</span><span>JAK2V617Fの有無は血栓リスクと無関係である</span></button>
+      </div>
+      <div class="mcq-explain">
+        <span class="lab">解説 — B</span>
+        血小板数と血栓リスクは直線関係ではない(A は誤り)。<b>極端な増多(&gt;100万)はむしろ動脈血栓リスクが低く、後天性von Willebrand症候群により出血傾向側へ振れる</b>。動脈血栓の規定因子は年齢&gt;60歳・血栓既往・心血管リスク因子・白血球増多・<b>JAK2V617F</b>(D は誤り)。微小血管虚血症状はクローン性疾患に特徴的で、反応性増多ではまず生じない(C は誤り)。
+      </div>
+    </div>
+
+    <div class="mcq reveal">
+      <div class="mcq-meta">Question 3 — 治療</div>
+      <p class="mcq-q">ETにおけるアスピリン療法について正しいものはどれか。</p>
+      <div class="mcq-options">
+        <button class="mcq-option" type="button"><span class="key">A</span><span>効果不十分なら325mg以上へ増量するのが合理的である</span></button>
+        <button class="mcq-option" type="button" data-correct="true"><span class="key">B</span><span>血小板代謝回転亢進により1日1回では24時間のCOX-1抑制が不十分なことがあり、100mg 1日2回が薬力学的に優れる</span></button>
+        <button class="mcq-option" type="button"><span class="key">C</span><span>微小血管虚血にはアスピリンより抗凝固(ワルファリン)が有効である</span></button>
+        <button class="mcq-option" type="button"><span class="key">D</span><span>腸溶錠は普通錠より吸収が良く望ましい</span></button>
+      </div>
+      <div class="mcq-explain">
+        <span class="lab">解説 — B</span>
+        抗血小板効果はCOX-1阻害で完結し低用量で十分。高用量は出血リスク増に加えCOX-2/プロスタサイクリンを抑制し逆効果になり得る(A は誤り)。この病態は<b>アスピリン反応性・クマジン抵抗性</b>で、抗凝固では予防できない(C は誤り)。吸収は<b>普通錠 &gt; 腸溶錠</b>(D は誤り)。ETでは代謝回転亢進でODのCOX-1抑制が不十分になりうるため、ARES試験で<b>100mg 1日2回</b>が薬力学的に優れた(B が正しい)。ただし1日2回は標準治療として確立しておらず、<b>虚血肢の本筋は緊急的な細胞減少療法</b>である点に注意。
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap reveal">
+    <div class="sec-eyebrow">References</div>
+    <h2 class="sec-title">主要文献（一次文献優先）</h2>
+    <ol class="refs">
+      <li><span class="t">Tefferi A, et al. Essential thrombocythemia: 2024 update on diagnosis, risk stratification, and management.</span> <span class="src">Am J Hematol. 2024;99(4):697–718.</span> <a href="https://doi.org/10.1002/ajh.27216" target="_blank" rel="noopener">doi:10.1002/ajh.27216</a></li>
+      <li><span class="t">van Genderen PJ, et al. Erythromelalgia in essential thrombocythemia is characterized by platelet activation and endothelial cell damage but not by thrombin generation.</span> <span class="src">Thromb Haemost. 1996.</span> <a href="https://pubmed.ncbi.nlm.nih.gov/8883266/" target="_blank" rel="noopener">PMID: 8883266</a></li>
+      <li><span class="t">Michiels JJ, et al. Platelet-mediated erythromelalgic, cerebral, ocular and coronary microvascular ischemic and thrombotic manifestations in ET and PV.</span> <span class="src">2006.</span> <a href="https://pubmed.ncbi.nlm.nih.gov/17127481/" target="_blank" rel="noopener">PMID: 17127481</a></li>
+      <li><span class="t">Karmody AM, et al. “Blue toe” syndrome. An indication for limb salvage surgery.</span> <span class="src">Arch Surg. 1976.</span> <a href="https://pubmed.ncbi.nlm.nih.gov/985075/" target="_blank" rel="noopener">PMID: 985075</a></li>
+      <li><span class="t">A review and approach to the diagnosis of blue toe syndrome.</span> <span class="src">Discover Medicine (Springer). 2025.</span> <a href="https://doi.org/10.1007/s44337-025-00275-z" target="_blank" rel="noopener">doi:10.1007/s44337-025-00275-z</a> — 6カテゴリーによる鑑別アプローチ</li>
+      <li><span class="t">Rocca B, et al. A randomized double-blind trial of 3 aspirin regimens to optimize antiplatelet therapy in essential thrombocythemia.</span> <span class="src">Blood. 2020.</span> — 短期ARES(BID&gt;OD、TIDで上乗せなし)<span class="uncertain">PMID/DOI未確認</span></li>
+      <li><span class="t">Rocca B, et al. Long-term pharmacodynamic and clinical effects of twice- versus once-daily low-dose aspirin in essential thrombocythemia: The ARES trial.</span> <span class="src">Am J Hematol. 2024;99(8):1462–1474.</span> <a href="https://doi.org/10.1002/ajh.27418" target="_blank" rel="noopener">doi:10.1002/ajh.27418</a></li>
+      <li><span class="t">Pascale S, et al. Aspirin-insensitive thromboxane biosynthesis in essential thrombocythemia is explained by accelerated renewal of the drug target.</span> <span class="src">Blood. 2012;119(15):3595–3603.</span> — 回数依存性の機序的基盤</li>
+      <li><span class="t">解説論説：Aspirin use in essential thrombocythemia: once-daily or twice-daily or not at all?</span> <span class="src">Am J Hematol. 2024.</span> <a href="https://doi.org/10.1002/ajh.27369" target="_blank" rel="noopener">doi:10.1002/ajh.27369</a> <span class="uncertain">著者未確認</span></li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="disclaim">本資料は教育目的の要約です。診療判断は最新の一次文献・ガイドラインに基づいて行ってください。<b>アスピリン1日2回投与は現時点で標準治療として確立したものではなく</b>、臨床判断とインフォームドコンセントを要します。一部の書誌情報(PMID等)は未確認であり、引用前にPubMedでの照合を推奨します。</p>
+    <p class="footmeta">総合内科 教育コンテンツ · 2026</p>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.mcq').forEach(function (mcq) {
+      var answered = false;
+      var opts = mcq.querySelectorAll('.mcq-option');
+      var explain = mcq.querySelector('.mcq-explain');
+      opts.forEach(function (opt) {
+        opt.addEventListener('click', function () {
+          if (answered) return;
+          answered = true;
+          opts.forEach(function (o) {
+            o.disabled = true;
+            if (o.getAttribute('data-correct') === 'true') o.classList.add('correct');
+          });
+          if (opt.getAttribute('data-correct') !== 'true') opt.classList.add('wrong');
+          if (explain) explain.classList.add('show');
+        });
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
